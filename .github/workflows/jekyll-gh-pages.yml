@@ -24,6 +24,7 @@ concurrency:
 jobs:
   # Build job
   build:
+    if: false # Disable the build job, since we don't want to make the github page public
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -40,6 +41,7 @@ jobs:
 
   # Deployment job
   deploy:
+    if: false # Disable the build job, since we don't want to make the github page public
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

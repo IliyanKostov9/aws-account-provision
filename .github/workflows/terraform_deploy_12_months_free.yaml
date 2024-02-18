@@ -21,9 +21,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      terraform_main_file_path: "./terraform/apps/12_months_free/${{ inputs.app }}"
+      terraform_main_file_path: "terraform/apps/12_months_free/${{ inputs.app }}"
       terraform_var_file: |
-        "-var-file=./terraform/envs/prod/common/env.tfvars -var-file=./terraform/envs/prod/app/12_months_free/passbolt/env.tfvars"
+        "-var-file=terraform/envs/prod/common/env.tfvars -var-file=terraform/envs/prod/app/12_months_free/passbolt/env.tfvars"
 
       # runs:
       #   using: "composite"

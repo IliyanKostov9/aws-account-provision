@@ -1,16 +1,3 @@
-variable "region" {
-  description = "AWS region"
-  type        = string
-  default     = "eu-west-1"
-
-}
-
-variable "env" {
-  description = "Project environment"
-  type        = string
-}
-
-
 variable "lambda_name" {
   description = "Lambda function name"
   type        = string
@@ -24,7 +11,7 @@ variable "lambda_description" {
 
 }
 
-variable "tags" {
+variable "lambda_tags" {
   description = "tags for the ec2 instance"
   type        = map(string)
 

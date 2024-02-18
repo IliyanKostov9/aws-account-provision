@@ -38,7 +38,7 @@ jobs:
         id: init
         shell: pwsh
         run: | # Folded Block Scalar ">" which converts new lines into spaces
-          terraform -chdir="$terraform_main_file_path" init"
+          terraform -chdir="$terraform_main_file_path init"
 
       # Run a Terraform validate
       - name: Terraform validate

@@ -22,8 +22,8 @@ jobs:
 
     env:
       terraform_main_file_path: "terraform/apps/12_months_free/${{ inputs.app }}"
-      terraform_var_common_file: "terraform/envs/prod/common/env.tfvars"
-      terraform_var_app_file: "terraform/envs/prod/app/12_months_free/${{ inputs.app }}/env.tfvars"
+      terraform_var_common_file: "./terraform/envs/prod/common/env.tfvars"
+      terraform_var_app_file: "./terraform/envs/prod/app/12_months_free/${{ inputs.app }}/env.tfvars"
       # runs:
       #   using: "composite"
     steps:

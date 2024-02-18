@@ -1,4 +1,4 @@
-name: deploy_AWS_resources
+name: Terraform_deploy_AWS_12_free_months
 #description: "Deploy Terraform After Infra"
 
 on:
@@ -25,7 +25,7 @@ jobs:
       terraform_var_file: |
         "-var-file=./terraform/envs/prod/common/env.tfvars -var-file=./terraform/envs/prod/app/12_months_free/passbolt/env.tfvars"
 
-      # runs:h
+      # runs:
       #   using: "composite"
     steps:
       # Install the latest version of Terraform CLI
@@ -38,7 +38,7 @@ jobs:
         id: init
         shell: pwsh
         run: | # Folded Block Scalar ">" which converts new lines into spaces
-          terraform -chdir="$terraform_main_file_path init"
+          terraform -chdir="${{ env.terraform_main_file_path }}" init"
 
       # Run a Terraform validate
       - name: Terraform validate
@@ -51,11 +51,11 @@ jobs:
       - name: Terraform plan
         id: plan
         shell: pwsh
-        run: terraform -chdir=$terraform_main_file_path plan -no-color -input=false $terraform_var_file"
+        run: terraform -chdir=${{ env.terraform_main_file_path }} plan -no-color -input=false ${{ env.terraform_var_file }}"
 
       # Run a Terraform apply
       - name: Terraform apply
         id: apply
         if: success()
         shell: pwsh
-        run: terraform -chdir=$inputs.pathTfMain apply -auto-approve -input=false $terraform_var_file"
+        run: terraform -chdir=${{ env.terraform_main_file_path }} apply -auto-approve -input=false ${{ env.terraform_var_file }}"

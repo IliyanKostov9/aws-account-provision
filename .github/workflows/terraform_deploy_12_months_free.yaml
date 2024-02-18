@@ -22,9 +22,8 @@ jobs:
 
     env:
       terraform_main_file_path: "terraform/apps/12_months_free/${{ inputs.app }}"
-      terraform_var_file: |
-        "-var-file=terraform/envs/prod/common/env.tfvars -var-file=terraform/envs/prod/app/12_months_free/passbolt/env.tfvars"
-
+      terraform_var_common_file: "terraform/envs/prod/common/env.tfvars"
+      terraform_var_app_file: "terraform/envs/prod/app/12_months_free/${{ inputs.app }}/env.tfvars"
       # runs:
       #   using: "composite"
     steps:
@@ -35,10 +34,6 @@ jobs:
       # Install the latest version of Terraform CLI
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
-
-      - name: List Directories and Subdirectories
-        run: |
-          tree -L 3
 
       # Run Terraform init
       # Setup connection to Azure + setup backend to use SA where we store Statefile
@@ -59,11 +54,11 @@ jobs:
       - name: Terraform plan
         id: plan
         shell: bash
-        run: terraform -chdir="${{ env.terraform_main_file_path }}" plan -no-color -input=false ${{ env.terraform_var_file }}"
+        run: terraform -chdir="${{ env.terraform_main_file_path }}" plan -no-color -input=false  -var-file=${{ env.terraform_var_common_file }} -var-file=${{ env.terraform_var_app_file }}"
 
       # Run a Terraform apply
       - name: Terraform apply
         id: apply
         if: success()
         shell: bash
-        run: terraform -chdir="${{ env.terraform_main_file_path }}" apply -auto-approve -input=false ${{ env.terraform_var_file }}"
+        run: terraform -chdir="${{ env.terraform_main_file_path }}" apply -auto-approve -input=false -var-file=${{ env.terraform_var_common_file }} -var-file=${{ env.terraform_var_app_file }}"

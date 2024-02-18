@@ -1,15 +1,26 @@
-variable "region" {
-  description = "AWS region"
+variable "ec2_name" {
+  description = "Name of the passbolt ec2 instance"
   type        = string
-  default     = "eu-west-1"
 
 }
 
-variable "env" {
-  description = "Project environment"
+variable "ec2_ami" {
+  description = "AMI ID on Ireland"
   type        = string
+
 }
 
+variable "ec2_instance_type" {
+  description = "The type of instance on EC2"
+  type        = string
+
+}
+
+variable "ec2_tags" {
+  description = "tags for the ec2 instance"
+  type        = map(string)
+
+}
 
 variable "lambda_name" {
   description = "Lambda function name"
@@ -24,8 +35,8 @@ variable "lambda_description" {
 
 }
 
-variable "tags" {
-  description = "tags for the ec2 instance"
+variable "lambda_tags" {
+  description = "tags for the lambda function"
   type        = map(string)
 
 }

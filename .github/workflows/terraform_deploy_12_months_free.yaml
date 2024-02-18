@@ -32,11 +32,15 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
 
+      - name: List Directories and Subdirectories
+        run: |
+          tree -L 3
+
       # Run Terraform init
       # Setup connection to Azure + setup backend to use SA where we store Statefile
       - name: Terraform Init
         id: init
-        shell: pwsh
+        shell: bash
         run: | # Folded Block Scalar ">" which converts new lines into spaces
           terraform -chdir="${{ env.terraform_main_file_path }}" init
 
@@ -44,18 +48,18 @@ jobs:
       - name: Terraform validate
         id: validate
         if: success() || failure()
-        shell: pwsh
+        shell: bash
         run: terraform validate -no-color
 
       # Run a Terraform plan
       - name: Terraform plan
         id: plan
-        shell: pwsh
+        shell: bash
         run: terraform -chdir="${{ env.terraform_main_file_path }}" plan -no-color -input=false ${{ env.terraform_var_file }}"
 
       # Run a Terraform apply
       - name: Terraform apply
         id: apply
         if: success()
-        shell: pwsh
+        shell: bash
         run: terraform -chdir="${{ env.terraform_main_file_path }}" apply -auto-approve -input=false ${{ env.terraform_var_file }}"

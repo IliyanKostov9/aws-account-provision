@@ -46,7 +46,7 @@ jobs:
         id: plan-upload
         with:
           workspace: ${{ env.TF_WORKSPACE }}
-          directory: ${{ env.CONFIG_DIRECTORY }}
+          directory: ${{ env.terraform_main_file_path }}
           speculative: true
 
       # Install the latest version of Terraform CLI

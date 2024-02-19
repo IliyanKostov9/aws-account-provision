@@ -1,4 +1,11 @@
 terraform {
+  cloud {
+    organization = "iliyangit-personal-tf-org"
+
+    workspaces {
+      name = "github-aws-account-creation-actions-workspace"
+    }
+  }
   required_providers {
     aws = {
       source  = "hashicorp/aws"

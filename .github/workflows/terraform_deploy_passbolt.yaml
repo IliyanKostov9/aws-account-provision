@@ -74,6 +74,10 @@ jobs:
             -var-file="${{ env.terraform_var_common_file }}" \
             -var-file="${{ env.terraform_var_app_file }}"
 
+      - name: Archive Lambda Deployment Package
+        run: |
+          zip -r src/lambda/lambda_deployment_package.zip src/lambda/SendGridMessage
+
       # Run a Terraform apply
       - name: Terraform apply
         id: apply

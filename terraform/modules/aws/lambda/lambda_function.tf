@@ -11,8 +11,8 @@ resource "aws_lambda_function" "current" {
   }
 
   # Deployment package
-  filename = var.lambda_source_dir
-  handler  = var.lambda_handler
-  #source_code_hash = data.archive_file.lambda.output_base64sha256
-  runtime = var.lambda_runtime
+  filename         = "lambda_deployment_package.zip"
+  handler          = var.lambda_handler
+  source_code_hash = data.archive_file.lambda.output_base64sha256
+  runtime          = var.lambda_runtime
 }

@@ -1,4 +1,4 @@
-resource "aws_lambda_function" "test_lambda" {
+resource "aws_lambda_function" "current" {
 
   # Lambda basic configs
   function_name = var.lambda_name
@@ -11,8 +11,8 @@ resource "aws_lambda_function" "test_lambda" {
   }
 
   # Deployment package
-  filename         = var.lambda_source_dir
-  handler          = var.lambda_handler
-  source_code_hash = data.archive_file.lambda.output_base64sha256
-  runtime          = var.lambda_runtime
+  filename = var.lambda_source_dir
+  handler  = var.lambda_handler
+  #source_code_hash = data.archive_file.lambda.output_base64sha256
+  runtime = var.lambda_runtime
 }

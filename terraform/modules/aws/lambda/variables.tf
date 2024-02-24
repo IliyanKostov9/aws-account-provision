@@ -12,7 +12,7 @@ variable "lambda_description" {
 }
 
 variable "lambda_tags" {
-  description = "tags for the ec2 instance"
+  description = "tags for the lambda function"
   type        = map(string)
 
 }
@@ -26,7 +26,7 @@ variable "lambda_handler" {
 variable "lambda_runtime" {
   description = "Lambda function runtime"
   type        = string
-  default     = "python3.11"
+  default     = "python3.10"
 
 }
 

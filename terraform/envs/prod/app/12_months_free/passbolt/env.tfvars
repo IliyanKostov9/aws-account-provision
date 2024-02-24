@@ -12,9 +12,9 @@ ec2_tags = {
 lambda_name = "prod-personal-sendgrid-lambda-aws"
 #lambda_function_file_path = "src/lambda/SendGridMessage"
 lambda_handler     = "index.py"
-lambda_runtime     = "python3.9"
-lambda_source_dir  = "../../../../src/lambda/SendGridMessage"
-lambda_output_path = "lambda_deployment_package.zip"
+lambda_runtime     = "python3.10"
+lambda_source_dir  = "../../../../../src/lambda/SendGridMessage"
+lambda_output_path = "../../../../src/lambda/lambda_deployment_package.zip"
 
 # IAM configs
 iam_role_lambda = "prod-personal-sendgrid-iam-aws"

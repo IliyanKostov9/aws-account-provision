@@ -1,5 +1,5 @@
-output "lambda_function_sendgrid" {
-  value       = aws_lambda_function.test_lambda.arn
+output "lambda_function" {
+  value       = aws_lambda_function.current.arn
   description = "Lambda arn output to be referenced to other modules"
 
 }

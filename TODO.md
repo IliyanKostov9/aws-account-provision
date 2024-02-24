@@ -2,4 +2,4 @@
 
 ## IliyanK
 
-- [ ] Add something here...
+- [ ] Fix the lambda zip deployment package NOT FOUND issue

@@ -13,7 +13,7 @@ on:
         description: |
           App to be deployed on 12 months free.
         options:
-          - passbolt
+          - passbolt1o
         required: true
 
 jobs:

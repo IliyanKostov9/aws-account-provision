@@ -37,13 +37,16 @@ jobs:
       # runs:
       #   using: "composite"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       # Install the latest version of Terraform CLI
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+          # terraform_version: "1.1.7"
 
       # Run Terraform init
       # Setup connection to Azure + setup backend to use SA where we store Statefile
@@ -52,9 +55,6 @@ jobs:
         shell: bash
         run: | # Folded Block Scalar ">" which converts new lines into spaces
           terraform -chdir=${{ env.terraform_main_file_path }} init
-
-        env:
-          TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
 
       # Run a Terraform validate
       - name: Terraform validate

@@ -54,7 +54,7 @@ jobs:
         id: init
         shell: bash
         run: | # Folded Block Scalar ">" which converts new lines into spaces
-          terraform -chdir=${{ env.terraform_main_file_path }} init
+          terraform -chdir="${{ env.terraform_main_file_path }}" init
 
       # Run a Terraform validate
       - name: Terraform validate
@@ -84,5 +84,5 @@ jobs:
           apply \
           -auto-approve \
           -input=false \
-          -var-file=${{ env.terraform_var_common_file }} \
-          -var-file=${{ env.terraform_var_app_file }}"
+          -var-file="${{ env.terraform_var_common_file }}" \
+          -var-file="${{ env.terraform_var_app_file }}"

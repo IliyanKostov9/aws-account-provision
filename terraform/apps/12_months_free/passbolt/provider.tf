@@ -3,20 +3,22 @@ terraform {
     organization = "iliyangit-personal-tf-org"
 
     workspaces {
-      name = "github-aws-account-creation-actions-workspace"
-    }
-  }
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.16"
+      name = "passbolt"
     }
   }
 
-  required_version = ">= 1.2.0"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "5.38.0"
+    }
+  }
+
+  required_version = ">= 1.7.3"
 }
 
 provider "aws" {
   region = var.region
 
 }
+

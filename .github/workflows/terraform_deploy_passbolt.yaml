@@ -1,4 +1,4 @@
-name: Terraform_deploy_AWS_12_free_months
+name: terraform_deploy_passbolt
 #description: "Deploy Terraform After Infra"
 
 on:
@@ -13,7 +13,8 @@ on:
         description: |
           App to be deployed on 12 months free.
         options:
-          - passbolt1o
+          - passbolt
+          - vpn
         required: true
 
 jobs:
@@ -26,13 +27,13 @@ jobs:
       pull-requests: write
 
     env:
-      terraform_main_file_path: "terraform/apps/12_months_free/${{ inputs.app }}"
+      terraform_main_file_path: "./terraform/apps/12_months_free/${{ inputs.app }}"
       terraform_var_common_file: "../../../envs/prod/common/env.tfvars"
       terraform_var_app_file: "../../../envs/prod/app/12_months_free/${{ inputs.app }}/env.tfvars"
       # Terraform secrets
       TF_CLOUD_ORGANIZATION: ${{ secrets.TF_ORG }}
       TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
-      TF_WORKSPACE: "github-aws-account-creation-actions-workspace"
+      TF_WORKSPACE: "passbolt"
       # runs:
       #   using: "composite"
     steps:
@@ -40,13 +41,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      # - name: Upload Configuration
-      #   uses: hashicorp/tfc-workflows-github/actions/upload-configuration@v1.0.0
-      #   id: plan-upload
-      #   with:
-      #     workspace: ${{ env.TF_WORKSPACE }}
-      #     directory: ${{ env.terraform_main_file_path }}
-      #     speculative: true
+      - name: Upload Configuration
+        uses: hashicorp/tfc-workflows-github/actions/upload-configuration@v1.0.0
+        id: plan-upload
+        with:
+          workspace: ${{ env.TF_WORKSPACE }}
+          directory: ${{ env.terraform_main_file_path }}
+          speculative: true
 
       # Install the latest version of Terraform CLI
       - name: Setup Terraform

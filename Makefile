@@ -41,18 +41,21 @@ install-deps: ## install python deps
 
 #################
 #
-# Run the TCs by product type
+# Terraform
 #
 ##################
 
-.PHONY: test
-test: set-marker set-opco  ## run tests
-	$(eval PYTEST_PATH = src/tests/$(MARKER)/)
-	@echo "PYTEST_PATH = $(PYTEST_PATH)"
-	@echo "MARKER = $(MARKER)"
-	@echo "OPCO = ${OP_CO}"
-	${PYTHON} -m pytest '${PYTEST_PATH}' --alluredir=${allure_path} --junitxml=junitxml_report.xml --op_co ${OP_CO} -m ${MARKER} --clean_up_tables -v
-	allure serve ${allure_path}
+.PHONY: tf-init
+tf-init: ## run tf init
+	terraform -chdir="./terraform/apps/12_months_free/vpn" init
+
+.PHONY: tf-plan
+tf-plan: ## run tf plan
+	 terraform -chdir="./terraform/apps/12_months_free/vpn" plan -var-file=../../../envs/prod/common/env.tfvars -var-file=../../../envs/prod/app/12_months_free/passbolt/env.tfvars
+
+.PHONY: tf-apply
+tf-apply: ## run tf apply
+	terraform -chdir="./terraform/apps/12_months_free/vpn" apply -var-file=../../../envs/prod/common/env.tfvars -var-file=../../../envs/prod/app/12_months_free/passbolt/env.tfvars
 
 
 .PHONY: secret-scan

@@ -4,6 +4,7 @@ variable "ec2_name" {
 
 }
 
+
 variable "ec2_ami" {
   description = "AMI ID on Ireland"
   type        = string

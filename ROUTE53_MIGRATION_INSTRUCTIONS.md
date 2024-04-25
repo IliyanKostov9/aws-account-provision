@@ -13,5 +13,9 @@ aws route53 list-resource-record-sets --hosted-zone-id $hostedzoneid --profile b
 ```
 
 4. Afterwards you'll receive a hosted zone output from the terminal, copy the output
-5. Go to the new account hosted zone and click the button `Import hosted file`
-6. In here copy the output to the text box and voalla, it's done!
+5. Create a new hosted zone manually and pay attention to create it's name save as the registered domain, eg. `ikostov.org`
+6. Go to the new account hosted zone and click the button `Import hosted file`
+7. In here copy the output to the text box.
+8. Finally you need to update the nameservers, that are from the NS record of the hosted zone to be as same as the `Registered domain`
+9. Copy the NS from the hosted zone to the registered domain and remove the last dot at the end '.'
+10. That's it!

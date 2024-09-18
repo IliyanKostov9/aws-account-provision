@@ -46,5 +46,5 @@ variable "ec2_remote_exec_commands" {
 variable "sg_ingress_port" {
   description = "Security ingress port"
   type        = number
-  default     = 80
+  default     = 8080
 }

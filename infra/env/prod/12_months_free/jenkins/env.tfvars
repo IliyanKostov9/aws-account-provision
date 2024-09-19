@@ -41,7 +41,7 @@ ec2_remote_exec_commands = [
   # echo <<EOF
   # sudo certbot certonly --standalone --agree-tos -m iliyan.kostov@email.ikostov.org -d jenkins.ikostov.org
   # cd /etc/letsencrypt/live/jenkins.ikostov.org/
-  # openssl pkcs12 -inkey privkey.pem -in cert.pem -export -out keys.pkcs12
+  # openssl pkcs12 -inkey privkey.pem -in fullchain.pem -export -out keys.pkcs12
   # keytool -importkeystore -srckeystore keys.pkcs12 -srcstoretype pkcs12 -destkeystore /var/lib/jenkins/jenkins.jks
   #
   # # Maybe change this ? Not sure

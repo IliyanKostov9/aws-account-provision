@@ -164,3 +164,9 @@ cython_debug/
 #.idea/
 id_rsa
 .cache_ggshield
+.aws-sam
+.serverless
+.classpath
+.project
+.factorypath
+.settings

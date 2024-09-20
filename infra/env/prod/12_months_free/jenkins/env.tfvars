@@ -68,3 +68,7 @@ ec2_default = {
     images      = ["amzn3-ami-hvm-*"]
   }
 }
+
+iam_user             = "jenkins-lambda-user"
+iam_policy_actions   = ["lambda:ListFunctions", "lambda:InvokeFunction"]
+iam_policy_resources = ["*"]

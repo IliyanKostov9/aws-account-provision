@@ -54,3 +54,31 @@ variable "sg_ingress_port" {
   type        = number
   default     = 80
 }
+
+variable "iam_user" {
+  description = "IAM user"
+  type        = string
+}
+
+variable "iam_path" {
+  description = "IAM path"
+  type        = string
+  default     = "/"
+}
+
+variable "tags" {
+  description = "IAM tags"
+  type        = map(string)
+  default = {
+    "env" = "prod"
+  }
+}
+variable "iam_policy_actions" {
+  description = "IAM policy actions"
+  type        = list(string)
+}
+
+variable "iam_policy_resources" {
+  description = "IAM resources"
+  type        = list(string)
+}

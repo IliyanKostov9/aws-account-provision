@@ -20,4 +20,3 @@ tf-apply:
 		-var-file="$(TF_ENV_PROD_PATH)" \
 		-auto-approve \
 		-input=false
-

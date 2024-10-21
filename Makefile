@@ -20,3 +20,9 @@ tf-apply:
 		-var-file="$(TF_ENV_PROD_PATH)" \
 		-auto-approve \
 		-input=false
+
+.phony: tf-destroy
+tf-destroy:
+	terraform -chdir="$(TF_MAIN_PATH)" destroy \
+		-var-file="$(TF_ENV_PROD_PATH)" \
+		-target=module.ec2_jenkins

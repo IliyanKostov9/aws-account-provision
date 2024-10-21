@@ -44,7 +44,8 @@
       <artifactId>remoting</artifactId>
       <version>${jenkins.remoting.version}</version>
     </dependency>
-  </dependencies>
+
+ </dependencies>
 
   <build>
     <plugins>

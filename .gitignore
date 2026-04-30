@@ -170,3 +170,5 @@ id_rsa
 .project
 .factorypath
 .settings
+.devenv
+.direnv

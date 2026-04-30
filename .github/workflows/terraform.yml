@@ -3,9 +3,10 @@ name: Terraform workflow
 on:
   push:
     branches:
-      - master
-    paths:
-      - infra/iac/**
+      # - master
+      - feature/*
+    # paths:
+    #   - infra/iac/**
   workflow_dispatch:
     inputs:
       app:
@@ -19,11 +20,14 @@ on:
 jobs:
   terraform:
     name: Terraform job
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write
+
     env:
-      TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.TF_SOPHIA_AWS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.TF_SOPHIA_AWS_SECRET_ACCESS_KEY }}
 
     steps:
       - name: Checkout repository
@@ -37,14 +41,14 @@ jobs:
           echo "$AGE_KEY" > /tmp/age-key.txt
           age --decrypt -i /tmp/age-key.txt terraform.tfvars.age > terraform.tfvars
           rm /tmp/age-key.txt
-        working-directory: infra/iac/env/prod
+        # NOTE:  Remove the hardcoded value
+        working-directory: infra/env/prod/vpn
         env:
           AGE_KEY: ${{ secrets.PORTFOLIO_AGE_KEY }}
 
       - name: Setup terraform
         uses: hashicorp/setup-terraform@5e8dbf3c6d9deaf4193ca7a8fb23f2ac83bb6c85 #v4
         with:
-          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
           terraform_version: "1.9"
 
       - name: Initialize

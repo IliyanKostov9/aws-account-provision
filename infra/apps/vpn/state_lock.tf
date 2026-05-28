@@ -1,5 +1,8 @@
+locals {
+  table_name = "terraform-state-locks-aws"
+}
 resource "aws_dynamodb_table" "locks" {
-  name         = "terraform-state-locks-aws"
+  name         = local.table_name
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "LockID"
 
@@ -11,4 +14,9 @@ resource "aws_dynamodb_table" "locks" {
   tags = {
     env = var.env
   }
+}
+
+import {
+  to = aws_dynamodb_table.locks
+  id = local.table_name
 }

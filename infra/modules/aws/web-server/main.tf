@@ -85,6 +85,11 @@ resource "aws_route_table" "vpn" {
   }
 }
 
+resource "aws_route_table_association" "vpn_associate" {
+  subnet_id      = aws_subnet.vpn_subnet.id
+  route_table_id = aws_route_table.vpn.id
+}
+
 resource "aws_instance" "vpn" {
   ami                     = data.aws_ami.open_vpn.id
   subnet_id               = aws_subnet.vpn_subnet.id

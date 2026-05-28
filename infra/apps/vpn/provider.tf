@@ -21,7 +21,7 @@ terraform {
     key    = "states/prod/terraform.tfstate"
     region = "eu-west-1"
 
-    dynamodb_table = "terraform-state-locks"
+    dynamodb_table = "terraform-state-locks-aws"
     encrypt        = true
   }
 }

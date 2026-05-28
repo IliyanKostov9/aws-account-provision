@@ -1,28 +1,38 @@
-APP_NAME := dummy
-TF_MAIN_PATH := ./infra/apps/12_months_free/$(APP_NAME)
-TF_ENV_PROD_PATH := ../../../env/prod/12_months_free/$(APP_NAME)/env.tfvars
+APP_NAME := vpn
+APP_PATH := ./infra/apps/$(APP_NAME)
+ENV_PATH := ../../env/prod/$(APP_NAME)/terraform.tfvars
 
-.phony: tf-init
+.PHONY: tf-init
 tf-init:
-	terraform -chdir="$(TF_MAIN_PATH)" init \
-		-var-file="$(TF_ENV_PROD_PATH)" \
+	terraform -chdir=$(APP_PATH) \
+		init \
+		-var-file=$(ENV_PATH) \
+		-no-color \
+		-reconfigure
+
+.PHONY: tf-validate
+tf-validate: ## Validate infa via Terraform
+	terraform -chdir=$(APP_PATH) \
+		validate \
 		-no-color
 
-.phony: tf-plan
+.PHONY: tf-plan
 tf-plan:
-	terraform -chdir="$(TF_MAIN_PATH)" plan \
-		-var-file="$(TF_ENV_PROD_PATH)" \
-		-no-color -input=false
+	terraform -chdir="$(APP_PATH)" plan \
+		-var-file=$(ENV_PATH) \
+		-no-color \
+		-input=false
 
-.phony: tf-apply
+.PHONY: tf-apply
 tf-apply:
-	terraform -chdir="$(TF_MAIN_PATH)" apply \
-		-var-file="$(TF_ENV_PROD_PATH)" \
+	terraform -chdir=$(APP_PATH) \
+		apply \
+		-var-file=$(ENV_PATH) \
 		-auto-approve \
 		-input=false
 
-.phony: tf-destroy
+.PHONY: tf-destroy
 tf-destroy:
-	terraform -chdir="$(TF_MAIN_PATH)" destroy \
-		-var-file="$(TF_ENV_PROD_PATH)" \
+	terraform -chdir=$(APP_PATH)  destroy \
+		-var-file=$(ENV_PATH) \
 		-target=module.ec2_jenkins

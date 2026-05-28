@@ -170,3 +170,13 @@ id_rsa
 .project
 .factorypath
 .settings
+.devenv
+.direnv
+
+
+# Terraform
+.terraform/
+**/.terraform.lock.hcl
+**/terraform.tfstate
+**/.terraform.tfstate.backup
+*.tfvars

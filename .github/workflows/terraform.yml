@@ -1,0 +1,65 @@
+name: Terraform workflow
+
+on:
+  push:
+    branches:
+      # - master
+      - feature/*
+    # paths:
+    #   - infra/iac/**
+  workflow_dispatch:
+    inputs:
+      app:
+        type: choice
+        description: |
+          App to be deployed on 12 months free account.
+        options:
+          - vpn
+        required: true
+
+jobs:
+  terraform:
+    name: Terraform job
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.TF_SOPHIA_AWS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.TF_SOPHIA_AWS_SECRET_ACCESS_KEY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Age
+        uses: AnimMouse/setup-age@d7fa8779bcb38294334a3aa753c7171e8da5067e # v1.2
+
+      - name: Decrypt terraform.tfvars
+        run: |
+          echo "$AGE_KEY" > /tmp/age-key.txt
+          age --decrypt -i /tmp/age-key.txt terraform.tfvars.age > terraform.tfvars
+          rm /tmp/age-key.txt
+        # NOTE:  Remove the hardcoded value
+        working-directory: infra/env/prod/vpn
+        env:
+          AGE_KEY: ${{ secrets.PORTFOLIO_AGE_KEY }}
+
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@5e8dbf3c6d9deaf4193ca7a8fb23f2ac83bb6c85 #v4
+        with:
+          terraform_version: "1.9"
+
+      - name: Initialize
+        run: make tf-init
+
+      - name: Validate
+        if: success() || failure()
+        run: make tf-validate
+
+      - name: Plan
+        run: make tf-plan
+
+      - name: Apply
+        run: make tf-apply

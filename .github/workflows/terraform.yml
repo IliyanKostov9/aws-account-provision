@@ -7,14 +7,6 @@ on:
     paths:
       - infra/**
   workflow_dispatch:
-    inputs:
-      app:
-        type: choice
-        description: |
-          App to be deployed on 12 months free account.
-        options:
-          - vpn
-        required: true
 
 jobs:
   terraform:
@@ -23,7 +15,10 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-
+    strategy:
+      fail-fast: false
+      matrix:
+        app: ["vpn"]
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.TF_SOPHIA_AWS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.TF_SOPHIA_AWS_SECRET_ACCESS_KEY }}
@@ -37,7 +32,7 @@ jobs:
 
       - name: Decrypt terraform.tfvars
         run: |
-          cd infra/env/prod/${{ inputs.app }}
+          cd infra/env/prod/${{ matrix.app }}
           echo "$AGE_KEY" > /tmp/age-key.txt
           age --decrypt -i /tmp/age-key.txt terraform.tfvars.age > terraform.tfvars
           rm /tmp/age-key.txt
@@ -50,14 +45,14 @@ jobs:
           terraform_version: "1.9"
 
       - name: Initialize
-        run: make tf-init APP_NAME=${{ inputs.app }}
+        run: make tf-init APP_NAME=${{ matrix.app }}
 
       - name: Validate
         if: success() || failure()
-        run: make tf-validate APP_NAME=${{ inputs.app }}
+        run: make tf-validate APP_NAME=${{ matrix.app }}
 
       - name: Plan
-        run: make tf-plan APP_NAME=${{ inputs.app }}
+        run: make tf-plan APP_NAME=${{ matrix.app }}
 
       - name: Apply
-        run: make tf-apply APP_NAME=${{ inputs.app }}
+        run: make tf-apply APP_NAME=${{ matrix.app }}

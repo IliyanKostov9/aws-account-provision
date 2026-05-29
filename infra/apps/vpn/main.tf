@@ -1,7 +1,3 @@
-locals {
-  dmarc = var.route53_records["_dmarc_txt"]
-}
-
 module "vpn_instance" {
   source  = "../../modules/aws/web-server"
   env     = var.env
@@ -35,8 +31,3 @@ module "zone" {
   top_level_domain = var.top_level_domain
   route53_records  = var.route53_records
 }
-
-# import {
-#   to = module.zone.aws_route53_record.records["_dmarc_txt"]
-#   id = format("%s_%s.%s_%s", var.zone_id, local.dmarc.subdomain, var.top_level_domain, local.dmarc.type)
-# }

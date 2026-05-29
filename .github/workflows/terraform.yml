@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - infra/iac/**
+      - infra/**
   workflow_dispatch:
     inputs:
       app:
@@ -37,11 +37,10 @@ jobs:
 
       - name: Decrypt terraform.tfvars
         run: |
+          cd infra/env/prod/${{ inputs.app }}
           echo "$AGE_KEY" > /tmp/age-key.txt
           age --decrypt -i /tmp/age-key.txt terraform.tfvars.age > terraform.tfvars
           rm /tmp/age-key.txt
-        # NOTE:  Remove the hardcoded value
-        working-directory: infra/env/prod/vpn
         env:
           AGE_KEY: ${{ secrets.PORTFOLIO_AGE_KEY }}
 
@@ -51,14 +50,14 @@ jobs:
           terraform_version: "1.9"
 
       - name: Initialize
-        run: make tf-init
+        run: make tf-init APP_NAME=${{ inputs.app }}
 
       - name: Validate
         if: success() || failure()
-        run: make tf-validate
+        run: make tf-validate APP_NAME=${{ inputs.app }}
 
       - name: Plan
-        run: make tf-plan
+        run: make tf-plan APP_NAME=${{ inputs.app }}
 
       - name: Apply
-        run: make tf-apply
+        run: make tf-apply APP_NAME=${{ inputs.app }}

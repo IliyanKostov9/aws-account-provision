@@ -69,7 +69,7 @@ sudo tee /usr/local/openvpn_as/port80redirect.py > /dev/null << 'EOF'
 6. HTTP to HTTPS done! Now setting up IPv6 from global pool...
 
 ```bash
-sudo  ./sacli --key "vpn.routing6.enable" --value "true" ConfigPut
+sudo ./sacli --key "vpn.routing6.enable" --value "true" ConfigPut
 sudo ./sacli --key "vpn.client.routing6.reroute_gw" --value "true" ConfigPut
 sudo ./sacli --key "vpn.server.daemon.vpn_network6.0" --value "fd4a:e7ae:b84b:2::/112" ConfigPut
 sudo ./sacli --key "vpn.server.routing6.snat_source.0" --value "eth0:2604:a880:400:d0::189e:6005" ConfigPut

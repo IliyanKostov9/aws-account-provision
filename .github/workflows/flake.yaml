@@ -1,4 +1,4 @@
-name: Flake ❄️ Tests
+name: Flake ❄️
 
 on:
   schedule:

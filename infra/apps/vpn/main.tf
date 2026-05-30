@@ -10,11 +10,6 @@ import {
   id = format("%s-vpn-key-pair", var.env)
 }
 
-import {
-  to = module.vpn_instance.aws_route53_record.vpn
-  id = format("%s_%s_A", var.zone_id, var.vpn_domain)
-}
-
 resource "aws_route53_zone" "primary" {
   name = "ikostov.org"
 }

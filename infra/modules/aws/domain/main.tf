@@ -1,11 +1,8 @@
-locals {
+resource "aws_route53_zone" "main" {
+  name = var.top_level_domain
   tags = {
     env = var.env
   }
-}
-resource "aws_route53_zone" "main" {
-  name = var.top_level_domain
-  tags = local.tags
 }
 
 resource "aws_route53_record" "records" {

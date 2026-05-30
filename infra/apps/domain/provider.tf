@@ -5,20 +5,11 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 6.41"
     }
-    tls = {
-      source  = "hashicorp/tls"
-      version = "~> 4.2"
-    }
-
-    external = {
-      source  = "hashicorp/external"
-      version = "~> 2.3"
-    }
   }
 
   backend "s3" {
     bucket = "tf-state-aws-405466951648"
-    key    = "states/prod/vpn/terraform.tfstate"
+    key    = "states/prod/domain/terraform.tfstate"
     region = "eu-west-1"
 
     dynamodb_table = "terraform-state-locks-aws"

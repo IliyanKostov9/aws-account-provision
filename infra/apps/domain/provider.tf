@@ -8,11 +8,11 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "tf-state-aws-405466951648"
-    key    = "states/prod/domain/terraform.tfstate"
+    bucket = "tf-state-aws-944850789927"
+    key    = "states/aws-account-provision/prod/domain/terraform.tfstate"
     region = "eu-west-1"
 
-    dynamodb_table = "terraform-state-locks-aws"
+    dynamodb_table = "terraform-state-locks"
     encrypt        = true
   }
 }

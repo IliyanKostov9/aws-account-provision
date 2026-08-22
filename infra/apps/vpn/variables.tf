@@ -19,3 +19,16 @@ variable "top_level_domain" {
   type        = string
 }
 
+variable "my_ip" {
+  description = "My ip"
+  type        = string
+}
+
+variable "aws_vpn_public_key" {
+  description = "The public key for the ec2 instance"
+  type        = string
+}
+
+
+
+

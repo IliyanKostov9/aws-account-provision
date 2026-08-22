@@ -34,5 +34,4 @@ tf-apply:
 .PHONY: tf-destroy
 tf-destroy:
 	terraform -chdir=$(APP_PATH)  destroy \
-		-var-file=$(ENV_PATH) \
-		-target=module.ec2_jenkins
+		-var-file=$(ENV_PATH)

@@ -1,5 +1,4 @@
 locals {
-  key_name = format("%s-vpn-key-pair", var.env)
   tags = {
     env = var.env
     app = "vpn"
@@ -8,42 +7,9 @@ locals {
   zone = "eu-west-1a"
 }
 
-data "aws_ami" "open_vpn" {
-  most_recent = true
-  owners      = ["679593333241"]
-
-  filter {
-    name   = "name"
-    values = ["OpenVPN Access Server Community*"]
-  }
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-}
-
-resource "tls_private_key" "rsa" {
-  algorithm = "RSA"
-  rsa_bits  = "4096"
-}
-
-data "external" "whoami" {
-  program = ["sh", "-c", "echo '{\"user\": \"'$(whoami)'\"}'"]
-}
-
-locals {
-  private_key_path = "/home/${data.external.whoami.result.user}/.ssh/${local.key_name}"
-}
-
-resource "local_file" "save_key_locally" {
-  content         = tls_private_key.rsa.private_key_pem
-  filename        = local.private_key_path
-  file_permission = "0600"
-}
-
 resource "aws_key_pair" "deploy" {
-  key_name   = local.key_name
-  public_key = tls_private_key.rsa.public_key_openssh
+  key_name   = var.key_name
+  public_key = var.aws_vpn_public_key
 }
 
 resource "aws_ebs_volume" "vpn_volume" {
@@ -90,8 +56,13 @@ resource "aws_route_table_association" "vpn_associate" {
   route_table_id = aws_route_table.vpn.id
 }
 
+
+data "aws_ssm_parameter" "openvpn_ami_alias" {
+  name = "/aws/service/marketplace/prod-qqrkogtl46mpu/3.2.2a"
+}
+
 resource "aws_instance" "vpn" {
-  ami                     = data.aws_ami.open_vpn.id
+  ami                     = data.aws_ssm_parameter.openvpn_ami_alias.value
   subnet_id               = aws_subnet.vpn_subnet.id
   instance_type           = "t2.micro"
   disable_api_termination = false
@@ -142,7 +113,7 @@ locals {
     "ssh" = {
       port     = 22
       protocol = "tcp"
-      source   = "82.0.0.0/8"
+      source   = format("%s/32", var.my_ip)
     }
   }
 }
